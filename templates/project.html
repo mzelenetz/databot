@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>{% block title%} {{ project['report'] }} {% endblock %}</h2>
+    <p>{{ project['reportDescription'] }}</p>
+</br></br>
+
+    <!-- ADDING FILES TO TASK -->
+    <h2> Add/Remove Files in Project</h2>
+    <form action = "/uploader" method = "POST" 
+        enctype = "multipart/form-data">        
+        <input type="hidden" name="project" value ="{{  project['report'] }}"> Upload:
+        <input type = "file" name = "file[]"  multiple='' >
+        <input type = "submit">
+    </form>  
+</br></br>
+
+    {% for file in files %}
+        <span class="text-muted">
+        <a href="/Project/Schedule/{{ project['report'] }}/{{ file }}">
+            
+            <form action="/delete/file/{{  project['report'] }}/{{ file }}" method="POST"> {{ file }} 
+                <button id="w3-btn" button style='margin-left:32px'>delete</button>
+            </form>
+        </a>
+        </span>
+    {% endfor %}
+
+    </br></br>
+
+    <!-- SCHEDULING -->
+    <h2> Scheduling </h2>
+    <!-- <span class="text">{{ task_info }} </span></br> -->
+    {% if task_info.enabled is defined %}
+    <span class="text">Task Active: </span><span class="text-muted">{{ task_info.enabled }} </span></br>
+    <span class="text">Last Run: </span><span class="text-muted"></span> {{ task_info.last_run }} </span></br>
+    <span class="text">Last Run Result: </span><span class="text-muted"></span> {{ task_info.next_run }} </span></br>
+    <span class="text">Next Run: </span><span class="text-muted">{{ task_info.enabled }} </span></br>
+    <span class="text">Status:  </span><span class="text-muted"></span>{{ task_info.status }} </span></br></br>
+    {% if task_info.actions is defined %}
+    <p>
+        <span class="text">Action Type:  </span><span class="text-muted"></span>{{ task_info.actions[0].action_type }} </span></br>
+        <span class="text">Command:  </span><span class="text-muted"></span>{{ task_info.actions[0].cmd }} </span></br>
+        <span class="text">File Path/Arugments:  </span><span class="text-muted"></span>{{ task_info.actions[0].arguments }} </span></br>
+        
+    </p>
+    {% endif %}
+    
+    
+
+    {% for trigger in task_info.triggers %}
+    <span class="text-muted"></span>{{ trigger }} </span></br>
+    {% endfor %}
+    <form action="/taskscheduler/deletetrigger/{{ project['report'] }}" method="POST">
+        <button id="w3-btn">Clear Triggers</button>
+    </form>
+    {% else %}
+        <span class="text">No Active Tasks</span>
+    {% endif %}
+
+
+</br></br>
+    <!-- EMAIL SECTION -->
+    <h2> Email List </h2>
+    <form action="/insertemail" method="post">
+        Add email: <input type="text" name="emailto">
+        <input type="hidden" name="project" value ="{{  project['report'] }}">
+        <input type="submit">
+    </form>
+    <br><br>
+    {% for recipient in recipients %}
+        <a href="#">
+            <p class="text-muted">{{ recipient['emailto'] }}
+
+            <form action="/delete/{{  recipient['report'] }}/{{  recipient['reportuserid'] }}" method="POST">
+                <button id="w3-btn">delete</button>
+            </form>
+        </p>
+
+        </a>
+        <hr>
+        {% endfor %}
+
+    </br></br>
+        
+    <!-- EMAIL SECTION -->
+    <h2> Danger: </h2>
+        <form action="/delete/project/{{  project['report'] }}" method="POST"> {{ file }} 
+            <button id="w3-btn" button style='margin-left:64px'>Delete Project</button>
+        </form>
+        
+{% endblock %}

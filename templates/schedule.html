@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>{% block title%} Scheduling: {{ project['report'] }} {% endblock %}</h2>
+    <h4>File to be Schduled: {{ filename }}</h4>
+    <p> Internal Path to File: {{ file_path }}</p>
+
+
+    <h4> New Schedule Tasks </h4>
+    <!-- <form class="selection" method="POST" action="/taskscheduler/addtrigger/{{ project['report'] }}">  
+        <select class="teamForm" id="repeatIntervalDD" type="text" name="repeatIntervalDD">
+             <option disabled selected>Repeat Interval</option>
+             <option id = "5 minutes" value = "5 minutes">5 minutes</option>
+             <option id = "10 minutes" value = "10 minutes">10 minutes</option>
+             <option id = "15 minutes" value = "15 minutes">15 minutes</option>
+             <option id = "30 minutes" value = "30 minutes">30 minutes</option>
+             <option id = "1 hour" value = "1 hour">1 hour</option>
+        </select>
+     </form> -->
+     <form class="selection" method="POST" action="/taskscheduler/addschedule/{{ project['report'] }}">  
+        <input type="hidden" name="file_path" id = "file_path" value ="{{  file_path }}">
+        <select class="teamForm" id="triggertypeDD" type="text" name="triggertypeDD">
+             <option disabled selected>Trigger Type</option>
+             <option id = "Once" value = "Once">Once</option>
+             <option id = "Daily" value = "Daily">Daily</option>
+             <option id = "Weekly" value = "Weekly">Weekly</option>
+             <option id = "Monthly" value = "Monthly">Monthly</option>
+             <option id = "MonthlyDay" value = "MonthlyDay">MonthlyDay</option>
+        </select>
+        <select class="multiselect" id="weekday" multiple="multiple" type="text" name="weekday">
+            <option disabled selected>Day Of Week</option>
+            <option id = "Monday" value = "Monday">Monday</option>
+            <option id = "Tuesday" value = "Tuesday">Tuesday</option>
+            <option id = "Wednesday" value = "Wednesday">Wednesday</option>
+            <option id = "Thursday" value = "Thursday">Thursday</option>
+            <option id = "Friday" value = "Friday">Friday</option>
+            <option id = "Saturday" value = "Saturday">Saturday</option>
+            <option id = "Sunday" value = "Sunday">Sunday</option>
+       </select>
+       <input type="date" name="startdate">
+       <input type="time" name="starttime">
+       <input class="btn" type="submit" value="submit">
+     </form>
+
+
+     <form action="/taskscheduler/triggernow/{{ project['report'] }}" method="POST">
+          <input type="hidden" name="file_path" id = "file_path" value ="{{  file_path }}">
+          <button id="w3-btn">Execute Program Once</button>
+      </form>     
+      <form action="/taskscheduler/testtrigger/{{ project['report'] }}" method="POST">
+          <input type="hidden" name="file_path" id = "file_path" value ="{{  file_path }}">
+          <button id="w3-btn">Execute Test</button>
+      </form>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %}Projects{% endblock %}</h1>
+    
+    <form action="/createproject" method="post">
+        Add Project: <input type="text" name="report">
+        Description: <input type="text" name="reportDescription">
+        <input type="submit">
+    </form>
+</br></br>
+    {% for project in projects %}
+        <a href="/Project/{{ project['report'] }}">
+            <h2>{{ project['report'] }}</h2>
+            <p class="text-muted">{{ project['reportDescription'] }} </p>
+        </a>
+        <hr>
+        {% endfor %}
+{% endblock %}
