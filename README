@@ -1,0 +1,8 @@
+# To stop a running Conatiner: 
+docker-compose -f docker-compose.prod.yml down -v
+
+# To start:
+docker-compose -f docker-compose.prod.yml up -d --build
+
+# To build a db
+docker-compose exec web python manage.py create_db

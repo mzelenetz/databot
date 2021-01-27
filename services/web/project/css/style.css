@@ -1,0 +1,13 @@
+h1 {
+    border: 2Px #eee solid;
+    color: brown;
+    text-align: center;
+    padding: 10px;
+};
+
+h4 {
+    border: 2Px #eee solid;
+    color: grey;
+    text-align: center;
+    padding: 8px;
+}
